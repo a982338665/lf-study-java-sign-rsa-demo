@@ -26,7 +26,8 @@ public class RSASignGenerate {
             java.security.KeyPairGenerator keygen = java.security.KeyPairGenerator
                     .getInstance("RSA");
             SecureRandom secrand = new SecureRandom();
-            secrand.setSeed(name.getBytes()); // 初始化随机产生器
+            // 初始化随机产生器
+            secrand.setSeed(name.getBytes());
             keygen.initialize(512, secrand);
             KeyPair keys = keygen.genKeyPair();
 
