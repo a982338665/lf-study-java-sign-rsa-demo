@@ -12,16 +12,7 @@ public class SignatureData {
     public void run() {
         try {
 
-            String prikeyvalue = "30820154020100300d06092a864886f70d01010105000482013e3" +
-                    "082013a02010002410080b1626365f29a7656cd62b9346a6b5befd728a918cadff9d91da6bbeb4b3f" +
-                    "1e54367e83f4de3e9cb0f37db61306c08b2a3e01580a04ad993b0ba35dbaa5aae7020301000102403f4" +
-                    "779aa8879872c0338907fa2df6514dad500204d998c124d88fff04d1d3dd6539751bca8608dc746723f46" +
-                    "30797f7be7e8ebc715f76ae41ee500d56cf9a591022100e505552f22a429e9ed06b29e283a3dc7c90b" +
-                    "424fe06c6916642ed30d4eae69b90221008fda6cb8bfe9f88bada94d579562cc64edbb42c709d" +
-                    "68afab3c5b4d4faae899f02201ab8ff928b693a56c84872c90f8a9430de9d88b4474c7f" +
-                    "0a94cffde25c9eef49022029437f7253629aeffe259550ed4204dd62b0" +
-                    "178c9e8ed318ecde666bbd68b983022100c8abe3d55ecef9" +
-                    "ff5a0bfa2ec19a533391ca9a366a74c3eeac4a1262e8a844b1" ;
+            String prikeyvalue = "30820154020100300d06092a864886f70d01010105000482013e3082013a020100024100a105bbcd7074497468a27011d98ee656293920b9d3c3c10d9f1d55e0d84fd981cebc5bb75aa54e02b05448258a001afa63150f7a2dff8491112786a80abc57e7020301000102405372d13d4ac6393b26eee7fd982e4298ec8c3ab59355a3bb1776f086b213cfb86f789d4e32cdf8adfb2da5a38ff19ca5ae78b7a259a234626c42a935382eb561022100d3959791a7ddca9c7de3980a51866f4f21d6680f76fb12fb2d4ebd7ded0a2b6b022100c2d2f9855cb377bb4f726678d2b62d22f48e69f2ebce19553e96bf46bf63807502204c29b218bd6b8a2e90e6676977754406213113de553f05d322b9105f0effb52702210097024ca2105e9359be94dfd49b0ed6219809a319c5a8f47ddc8ba02b4841e9d90220242d9afc92c2eedc85a4a1262377f864f320798568f054fabbd8757b36c24751" ;
             //这是GenerateKeyPair输出的私钥编码
             PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(hexStrToBytes(prikeyvalue));
             KeyFactory keyf = KeyFactory.getInstance("RSA");
@@ -47,6 +38,28 @@ public class SignatureData {
         }
         ;
 
+    }
+    public static String  sign(String priKey,String info) {
+        try {
+            PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(hexStrToBytes(priKey));
+            KeyFactory keyf = KeyFactory.getInstance("RSA");
+            PrivateKey myprikey = keyf.generatePrivate(priPKCS8);
+            // 用私钥对信息生成数字签名
+            java.security.Signature signet = java.security.Signature.getInstance("MD5withRSA");
+            signet.initSign(myprikey);
+            // 要签名的信息
+            signet.update(info.getBytes("ISO-8859-1"));
+            // 对信息的数字签名
+            byte[] signed = signet.sign();
+            System.out.println("signed(签名内容)原值=" + bytesToHexStr(signed));
+            System.out.println("info（原值）=" + info);
+            System.out.println("签名并生成文件成功");
+            return bytesToHexStr(signed);
+        } catch (java.lang.Exception e) {
+            e.printStackTrace();
+            System.out.println("签名并生成文件失败");
+        };
+        return null;
     }
 
     /**
