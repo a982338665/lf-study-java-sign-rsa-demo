@@ -30,3 +30,4 @@
           我是使用编码方式进行保存的；类名是：GenerateKeyPair.java
        b、编写发送者的功能：首先通过私钥加密待输出数据Data，并输出Data和签名后的Data；类名是：SignatureData.java
        c、编写接收者的功能：使用发送者的公钥来验证发送过来的加密Data，判断签名的合法性；类名是：VerifySignature.java
+
