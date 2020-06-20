@@ -14,5 +14,6 @@ public class test {
         String signed = SignatureData.sign(priKey, info);
 
         boolean b = VerifySignature.verifySign(pubKey, info, signed);
+        System.err.println(b);
     }
 }

@@ -53,11 +53,13 @@ public class VerifySignature {
             java.security.Signature signetcheck = java.security.Signature.getInstance("MD5withRSA");
             signetcheck.initVerify(pubKey);
             signetcheck.update(info.getBytes());
-            if (signetcheck.verify(signed)) {
-                System.out.println("签名正常");
-            } else {
-                System.out.println("非签名正常");
-            }
+            //verify掉第一次的时候生效
+//            System.err.println(signetcheck.verify(signed));
+//            if (signetcheck.verify(signed)) {
+//                System.out.println("签名正常");
+//            } else {
+//                System.out.println("非签名正常");
+//            }
             return signetcheck.verify(signed);
         } catch (java.lang.Exception e) {
             e.printStackTrace();
